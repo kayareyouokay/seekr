@@ -41,10 +41,16 @@ app.post('/ask', async (req, res) => {
     });
 
     for await (const chunk of response) {
-        console.log(chunk.text);
+        res.write(chunk.text);
     }
 
-    // STEP 7 : Also stream back the ources and follow up questions (hich we can get from another parallel LLM call )
+    res.write('----------Sources----------');
+
+    // STEP 7 : Also stream back the sources and follow up questions (hich we can get from another parallel LLM call )
+    webSearchResults.forEach(result => res.write(JSON.stringify(result)));
+
+    // STEP 8 : Close the event stream
+    res.end();
 })
 
 app.listen(PORT, () => {
