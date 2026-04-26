@@ -8,5 +8,11 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@google/genai": "^1.50.1",
+    "@tavily/core": "^0.7.2",
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1"
   }
 }
