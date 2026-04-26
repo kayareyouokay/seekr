@@ -46,13 +46,20 @@ app.post('/ask', async (req, res) => {
         res.write(chunk.text);
     }
 
-    res.write('\n\n----------Sources----------\n\n');
-
     // STEP 7 : Also stream back the sources and follow up questions (hich we can get from another parallel LLM call )
-    res.write(JSON.stringify(webSearchResults.map((result, index) => ({ title: result.title, url: result.url, image: webSearchResponse.images[index] || null }))))
+    res.write('\n\n<SOURCES>\n\n');
+    res.write(JSON.stringify(webSearchResults.map((result, index) => ({ title: result.title, url: result.url, image: webSearchResponse.images[index] || null }))));
+    res.write('\n\n</SOURCES>\n\n');
 
     // STEP 8 : Close the event stream
     res.end();
+})
+
+app.post('/ask/follow_up', async (req, res) => {
+    // STEP 1 : Get the existing chat from the database
+    // STEP 2 : Forward the full history to LLM
+    // STEP 3 : Do the context engineering
+    // STEP 4 : Stream the response to the user
 })
 
 app.listen(PORT, () => {
