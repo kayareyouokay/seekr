@@ -21,9 +21,11 @@ app.post('/ask', async (req, res) => {
     // STEP 4 : Web search to gather resources
     const webSearchResponse  = await client.search(query, {
         searchDepth: "advanced",
+        includeImages: true,
     })
 
     const webSearchResults = webSearchResponse.results;
+    console.log(webSearchResults);
 
     // STEP 5: Do some context engineering on the prompt + web search responses
 
@@ -44,10 +46,10 @@ app.post('/ask', async (req, res) => {
         res.write(chunk.text);
     }
 
-    res.write('----------Sources----------');
+    res.write('\n\n----------Sources----------\n\n');
 
     // STEP 7 : Also stream back the sources and follow up questions (hich we can get from another parallel LLM call )
-    webSearchResults.forEach(result => res.write(JSON.stringify(result)));
+    res.write(JSON.stringify(webSearchResults.map((result, index) => ({ title: result.title, url: result.url, image: webSearchResponse.images[index] || null }))))
 
     // STEP 8 : Close the event stream
     res.end();
