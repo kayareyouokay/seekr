@@ -1,4 +1,4 @@
-# Seekr Backend
+# Seekr
 
 Seekr is a Bun + Express backend for a Perplexity-style AI search experience. It searches the web with Tavily, grounds a Gemini answer in those sources, and streams progress plus answer chunks to the frontend over Server-Sent Events.
 
